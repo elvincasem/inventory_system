@@ -30,6 +30,7 @@ include_once("sidebar.php");
                     <div class="row-fluid">
                     <p>
 											<button id="addemployee" class="btn btn-large btn-success"><i class="icon-plus-sign"></i> Add Employee</button>
+											<button id="refreshemployee" class="btn btn-large btn-success"><i class="icon-refresh"></i>Refresh</button>
 											
 										</p>
 					</div>
@@ -46,7 +47,8 @@ include_once("sidebar.php");
                             <div class="navbar navbar-inner block-header">
                                 <div class="muted pull-left">Add Employees</div>
                             </div>
-                            <div class="block-content collapse in">
+							
+                 <div class="block-content collapse in">
                                 <div class="span12">
 					<!-- BEGIN FORM-->
 					<form action="#" id="form_employee" class="form-horizontal">
@@ -93,6 +95,7 @@ include_once("sidebar.php");
   							
   							<div class="form-actions">
   								<button type="submit" class="btn btn-primary" onClick="saveEmployee();">Save</button>
+								<button type="submit" class="btn btn-primary" onClick="saveandcreateEmployee();">Save and Create New</button>
   								<button type="button" class="btn" id="cancelemployee">Cancel</button>
   							</div>
 						</fieldset>
@@ -106,11 +109,11 @@ include_once("sidebar.php");
                      <!-- /validation -->
 					 
 					 
-					 <div class="row-fluid">
+					 <div class="row-fluid" id="employeetable">
                         <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Employee List</div>
+                                <div class=" pull-left"><h2>Employee List</h2></div>
                             </div>
                             <div class="block-content collapse in">
                                 <div class="span12">
@@ -131,7 +134,7 @@ include_once("sidebar.php");
 											include_once("assets/functions.php");
 											$query = "SELECT * FROM employee";
 											//echo $query;
-											$employeelist = selectListSQL("SELECT * FROM employee");
+											$employeelist = selectListSQL("SELECT * FROM employee ORDER BY eid DESC");
 											//print_r($employeelist);
 											foreach ($employeelist as $rows => $link) {
 												$eid = $link['eid'];
@@ -144,7 +147,7 @@ include_once("sidebar.php");
 												echo "<td>$employeedesignation</td>";
 												echo "<td class='center'> 
 													
-													<button class='btn btn-primary' onClick='editemployee()'><i class='icon-pencil icon-white'></i> Edit</button>
+													<button class='btn btn-primary' onClick='editemployee($eid)'><i class='icon-pencil icon-white'></i> Edit</button>
 													<button class='btn btn-danger notification' id='notification' onClick='deleteemployee($eid)'><i class='icon-remove icon-white'></i> Delete</button>
 												</td>";
 											}

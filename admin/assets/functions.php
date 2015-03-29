@@ -41,6 +41,43 @@
 		echo "loggedout";
 	}
 
+	
+//save Item
+
+//save item
+	if($_GET['action'] == "saveitem"){
+		require 'db_connection.php';
+		$conn = dbConnect();
+		$description = $_GET['description'];
+		$unit = $_GET['unit'];
+		$unitcost = $_GET['unitcost'];
+		
+		$sqlinsert = "INSERT INTO items(description,unit,unitcost) VALUES('$description','$unit',$unitcost)";
+		//$sqldelete = "DELETE FROM employee where eid='$eid'";
+		$save = $conn->prepare($sqlinsert);
+		$save->execute();
+		//$conn = null;
+		//echo $empid;
+		//session_destroy();
+		//echo "saved";
+	}
+//delete item
+	if($_GET['action'] == "deleteitem"){
+		require 'db_connection.php';
+		$conn = dbConnect();
+		$itemno = $_GET['itemno'];
+		$sqldelete = "DELETE FROM items where itemNo='$itemno'";
+		$delete = $conn->prepare($sqldelete);
+		$delete->execute();
+		$conn = null;
+		//echo $eid;
+		//session_destroy();
+		//echo "loggedout";
+	}
+	
+	
+	
+	
 //save user
 	if($_GET['action'] == "saveuser"){
 		

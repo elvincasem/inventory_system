@@ -19,6 +19,25 @@ $(function() {
 	});
 });
 
+//open close item form
+$('#additem').click(function() {
+
+        //$('.container').hide();
+        $('#itemform').show("slow");
+    });
+
+$('#cancelItem').click(function() {
+
+        //$('.container').hide();
+        $('#itemform').hide("slow");
+    });
+$('#refreshitem').click(function() {
+
+        //$('.container').hide();
+        location.reload();
+    });
+
+
 //open close employee form
 $('#addemployee').click(function() {
 
@@ -31,21 +50,13 @@ $('#cancelemployee').click(function() {
         //$('.container').hide();
         $('#employeeform').hide("slow");
     });
+$('#refreshemployee').click(function() {
+
+        //$('.container').hide();
+        location.reload();
+    });
 
 
-
-
-function saveEmployee(){
-	
-	//FormValidation.init();
-	var status = validateEmployee();
-	
-	
-	
-	//alert (status);
-	
-	
-}
 
 function validateEmployee(){
 	
@@ -77,7 +88,7 @@ function validateEmployee(){
                         required: true
                     },
 					mname: {
-                        minlength: 2,
+                        minlength: 1,
                         required: true
                     },
 					designation: {
@@ -133,8 +144,8 @@ function validateEmployee(){
 						document.getElementById("fname").value = "";
 						document.getElementById("mname").value = "";
 						document.getElementById("designation").value = "";
-						$('#employee').load(document.URL +  ' #employee');
-						setTimeout(function(){$('#employeeform').hide("fast");},800);
+						$('#employeetable').load(document.URL +  ' #employeetable');
+						
                         //$('table#resultTable tbody').html(response);
 						//alert(response);
 						//$('#employee').load(document.URL +  ' #employee');
@@ -164,12 +175,23 @@ function validateEmployee(){
 	
 }
 
-function editemployee(){
+function editemployee(id){
 	
-	alert ("test");
+	alert (id);
 	
 }
-
+function saveEmployee(){
+	
+	var status = validateEmployee();
+	setTimeout(function(){$('#employeeform').hide("fast");},800);
+	
+}
+function saveandcreateEmployee(){
+	
+	var status = validateEmployee();
+	//setTimeout(function(){$('#employeeform').hide("fast");},800);
+	
+}
 function deleteemployee(id){
 	
 	var r = confirm("Are your sure you want to delete this employee?");
@@ -182,7 +204,7 @@ function deleteemployee(id){
                     success: function(response) {
                         //$('table#resultTable tbody').html(response);
 						//alert(response);
-						$('#employee').load(document.URL +  ' #employee');
+						$('#employeetable').load(document.URL +  ' #employeetable');
 						$('#deletesuccess').show("fast");
 						setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
                     }
@@ -194,3 +216,154 @@ function deleteemployee(id){
     }
 	
 }
+
+
+//Item
+
+function validateItem(){
+	
+	
+	//var handleValidationEmployee = function() {
+        // for more info visit the official plugin documentation: 
+            // http://docs.jquery.com/Plugins/Validation
+
+            var form1 = $('#form_item');
+            var error1 = $('.alert-error', form1);
+            var success1 = $('.alert-success', form1);
+
+            form1.validate({
+                errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+                rules: {
+                    description: {
+                        minlength: 2,
+                        required: true
+                    },
+					unit: {
+                        minlength: 1,
+                        required: true
+                    },
+                    unitcost: {
+                        minlength: 2,
+                        required: true
+                    }
+                },
+
+                invalidHandler: function (event, validator) { //display error alert on form submit              
+                    success1.hide();
+                    error1.show();
+                    FormValidation.scrollTo(error1, -200);
+                },
+
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
+
+                unhighlight: function (element) { // revert the change done by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+					//document.getElementById("formstatus").innerHTML = "ok";
+					//status = document.getElementById("formstatus").innerHTML;
+                },
+
+                submitHandler: function (form) {
+					
+                    success1.show();
+                    //error1.hide();
+					
+					var description = document.getElementById("description").value;
+					var unit = document.getElementById("unit").value;
+					var unitcost = document.getElementById("unitcost").value;
+					
+					$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "saveitem", description: description, unit: unit, unitcost: unitcost},
+                    success: function(response) {
+						//console.log();
+						document.getElementById("description").value = "";
+						document.getElementById("unit").value = "";
+						document.getElementById("unitcost").value = "";
+
+						//$('#itemtable').load(document.URL +  ' #itemtable');
+						 location.reload();
+						
+                        //$('table#resultTable tbody').html(response);
+						//alert(response);
+						//$('#employee').load(document.URL +  ' #employee');
+						//$('#deletesuccess').show("fast");
+						//setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+                    }
+                });
+					
+					//form.submit();
+                }
+            });
+			//return "ok";
+			// wrapper function to scroll to an element
+			return {
+				scrollTo: function (el, offeset) {
+            pos = el ? el.offset().top : 0;
+            jQuery('html,body').animate({
+                    scrollTop: pos + (offeset ? offeset : 0)
+                }, 'slow');
+        }
+				
+			}
+			
+
+    //}
+	
+	
+}
+
+function saveItem(){
+	
+	var status = validateItem();
+	setTimeout(function(){$('#itemform').hide("fast");},800);
+	
+}
+function saveandcreateItem(){
+	
+	var status = validateItem();
+	//setTimeout(function(){$('#employeeform').hide("fast");},800);
+	
+}
+function deleteitem(id){
+	
+	var r = confirm("Are your sure you want to delete this Item?");
+    if (r == true) {
+        //alert ("You pressed OK!");
+		$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "deleteitem", itemno: id},
+                    success: function(response) {
+                        //$('table#resultTable tbody').html(response);
+						//alert(response);
+						$('#itemtable').load(document.URL +  ' #itemtable');
+						$('#deletesuccess').show("fast");
+						setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+                    }
+                });
+		
+    } if(r == false) {
+        //txt = "You pressed Cancel!";
+		
+    }
+	
+}
+
+
+
