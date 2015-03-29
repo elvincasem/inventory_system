@@ -33,6 +33,12 @@ include_once("sidebar.php");
 											
 										</p>
 					</div>
+					<div class="row-fluid">
+						<div class="alert alert-success hide" id="deletesuccess">
+									<button class="close" data-dismiss="alert"></button>
+									Employee deleted!
+						</div>
+					</div>
                      <!-- validation -->
                     <div class="row-fluid" id="employeeform" style="display:none;">
                          <!-- block -->
@@ -56,31 +62,31 @@ include_once("sidebar.php");
   							<div class="control-group">
   								<label class="control-label">Employee No.<span class="required">*</span></label>
   								<div class="controls">
-  									<input type="text" name="empno" data-required="1" class="span6 m-wrap"/>
+  									<input type="text" id="empno" name="empno" data-required="1" class="span6 m-wrap"/>
   								</div>
   							</div>
 							<div class="control-group">
   								<label class="control-label">Last Name<span class="required">*</span></label>
   								<div class="controls">
-  									<input type="text" name="lname" data-required="1" class="span6 m-wrap"/>
+  									<input type="text" id="lname" name="lname" data-required="1" class="span6 m-wrap"/>
   								</div>
   							</div>
 							<div class="control-group">
   								<label class="control-label">First Name<span class="required">*</span></label>
   								<div class="controls">
-  									<input type="text" name="fname" data-required="1" class="span6 m-wrap"/>
+  									<input type="text" id="fname" name="fname" data-required="1" class="span6 m-wrap"/>
   								</div>
   							</div>
 							<div class="control-group">
   								<label class="control-label">Middle Name<span class="required">*</span></label>
   								<div class="controls">
-  									<input type="text" name="mname" data-required="0" class="span6 m-wrap"/>
+  									<input type="text" id="mname" name="mname" data-required="0" class="span6 m-wrap"/>
   								</div>
   							</div>
 							<div class="control-group">
   								<label class="control-label">Designation<span class="required">*</span></label>
   								<div class="controls">
-  									<input type="text" name="designation" data-required="1" class="span6 m-wrap"/>
+  									<input type="text" id="designation" name="designation" data-required="1" class="span6 m-wrap"/>
   								</div>
   							</div>
 							<!-- <div id="formstatus">1</div> -->
@@ -104,7 +110,7 @@ include_once("sidebar.php");
                         <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Bootstrap dataTables</div>
+                                <div class="muted pull-left">Employee List</div>
                             </div>
                             <div class="block-content collapse in">
                                 <div class="span12">
@@ -128,18 +134,18 @@ include_once("sidebar.php");
 											$employeelist = selectListSQL("SELECT * FROM employee");
 											//print_r($employeelist);
 											foreach ($employeelist as $rows => $link) {
-												
+												$eid = $link['eid'];
 												$employeeno = $link['empNo'];
-												$employeename = $link['lname'];
+												$employeename = $link['fname'] . " ". $link['mname'] ." ". $link['lname'];
 												$employeedesignation = $link['designation'];
 												echo "<tr class='odd gradeX'>";
 												echo "<td>$employeeno</td>";
-												echo "<td>$employeeno</td>";
+												echo "<td>$employeename</td>";
 												echo "<td>$employeedesignation</td>";
 												echo "<td class='center'> 
-													<button class='btn'><i class='icon-eye-open'></i> View</button>
-													<button class='btn btn-primary'><i class='icon-pencil icon-white'></i> Edit</button>
-													<button class='btn btn-danger'><i class='icon-remove icon-white'></i> Delete</button>
+													
+													<button class='btn btn-primary' onClick='editemployee()'><i class='icon-pencil icon-white'></i> Edit</button>
+													<button class='btn btn-danger notification' id='notification' onClick='deleteemployee($eid)'><i class='icon-remove icon-white'></i> Delete</button>
 												</td>";
 											}
 											
@@ -150,6 +156,7 @@ include_once("sidebar.php");
 											
 										</tbody>
 									</table>
+								
                                 </div>
                             </div>
                         </div>

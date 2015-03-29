@@ -115,8 +115,33 @@ function validateEmployee(){
                 submitHandler: function (form) {
 					
                     success1.show();
-                    error1.hide();
+                    //error1.hide();
 					
+					var empno = document.getElementById("empno").value;
+					var lname = document.getElementById("lname").value;
+					var mname = document.getElementById("mname").value;
+					var fname = document.getElementById("fname").value;
+					var designation = document.getElementById("designation").value;
+					$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "saveemployee", empid: empno, lname: lname, mname: mname, fname: fname, designation: designation},
+                    success: function(response) {
+						//console.log();
+						document.getElementById("empno").value = "";
+						document.getElementById("lname").value = "";
+						document.getElementById("fname").value = "";
+						document.getElementById("mname").value = "";
+						document.getElementById("designation").value = "";
+						$('#employee').load(document.URL +  ' #employee');
+						setTimeout(function(){$('#employeeform').hide("fast");},800);
+                        //$('table#resultTable tbody').html(response);
+						//alert(response);
+						//$('#employee').load(document.URL +  ' #employee');
+						//$('#deletesuccess').show("fast");
+						//setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+                    }
+                });
 					
 					//form.submit();
                 }
@@ -136,5 +161,36 @@ function validateEmployee(){
 
     //}
 	
+	
+}
+
+function editemployee(){
+	
+	alert ("test");
+	
+}
+
+function deleteemployee(id){
+	
+	var r = confirm("Are your sure you want to delete this employee?");
+    if (r == true) {
+        //alert ("You pressed OK!");
+		$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "deleteemployee", eid: id},
+                    success: function(response) {
+                        //$('table#resultTable tbody').html(response);
+						//alert(response);
+						$('#employee').load(document.URL +  ' #employee');
+						$('#deletesuccess').show("fast");
+						setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+                    }
+                });
+		
+    } if(r == false) {
+        //txt = "You pressed Cancel!";
+		
+    }
 	
 }

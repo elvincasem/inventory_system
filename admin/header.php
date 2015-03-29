@@ -6,6 +6,7 @@
 		header("Location:../");
 		
 	}
+
 ?>
 <!DOCTYPE html>
 <html class="no-js">
