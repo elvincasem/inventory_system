@@ -1,3 +1,4 @@
+
 $(function() {
     // Side Bar Toggle
     $('.hide-sidebar').click(function() {
@@ -17,3 +18,12 @@ $(function() {
 	  	$('#sidebar').show('fast');
 	});
 });
+function saveEmployee(){
+	
+	FormValidation.init();
+	
+	
+	alert (status);
+	
+	
+}

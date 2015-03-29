@@ -4,7 +4,7 @@ var FormValidation = function () {
         // for more info visit the official plugin documentation: 
             // http://docs.jquery.com/Plugins/Validation
 
-            var form1 = $('#form_sample_1');
+            var form1 = $('#form_employee');
             var error1 = $('.alert-error', form1);
             var success1 = $('.alert-success', form1);
 
@@ -14,34 +14,24 @@ var FormValidation = function () {
                 focusInvalid: false, // do not focus the last invalid input
                 ignore: "",
                 rules: {
-                    name: {
+                    empno: {
                         minlength: 2,
                         required: true
                     },
-                    email: {
-                        required: true,
-                        email: true
+					lname: {
+                        minlength: 2,
+                        required: true
                     },
-                    url: {
-                        required: true,
-                        url: true
+                    fname: {
+                        minlength: 2,
+                        required: true
                     },
-                    number: {
-                        required: true,
-                        number: true
+					mname: {
+                        minlength: 2,
+                        required: true
                     },
-                    digits: {
-                        required: true,
-                        digits: true
-                    },
-                    creditcard: {
-                        required: true,
-                        creditcard: true
-                    },
-                    occupation: {
-                        minlength: 5,
-                    },
-                    category: {
+					designation: {
+                        minlength: 2,
                         required: true
                     }
                 },
@@ -68,11 +58,17 @@ var FormValidation = function () {
                     label
                         .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
                     .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+					document.getElementById("formstatus").innerHTML = "ok";
+					status = document.getElementById("formstatus").innerHTML;
                 },
 
                 submitHandler: function (form) {
+					
                     success1.show();
                     error1.hide();
+					
+					//return "ok";
+					//form.submit();
                 }
             });
     }
@@ -92,6 +88,9 @@ var FormValidation = function () {
                     scrollTop: pos + (offeset ? offeset : 0)
                 }, 'slow');
         }
+
+		
+		
 
     };
 

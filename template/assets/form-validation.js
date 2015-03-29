@@ -14,7 +14,11 @@ var FormValidation = function () {
                 focusInvalid: false, // do not focus the last invalid input
                 ignore: "",
                 rules: {
-                    name: {
+                    employeeno: {
+                        minlength: 2,
+                        required: true
+                    },
+					ename: {
                         minlength: 2,
                         required: true
                     },
