@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2015 at 11:38 PM
+-- Generation Time: Mar 29, 2015 at 08:58 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -34,7 +34,23 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `mname` varchar(80) NOT NULL,
   `designation` varchar(100) NOT NULL,
   PRIMARY KEY (`eid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
+
+--
+-- Dumping data for table `employee`
+--
+
+INSERT INTO `employee` (`eid`, `empNo`, `lname`, `fname`, `mname`, `designation`) VALUES
+(26, '123123123', 'sadfas', 'asdf', 'adsf', 'afd'),
+(27, '11111', 'asdasd', 'asdas', 'asdasdas', 'asdasd'),
+(29, '23132', '2asda', 'asdasdasd', 'asdasd', 'asdasd'),
+(30, '12312', '3123', '123', '2321', '32312'),
+(31, '1111', 'Cabanban', 'Lynnette', 'G', 'Instructor I'),
+(32, '123', 'songcuan', 'Jerome', 'P', 'MIS Head, DMMMSU-SLUC'),
+(33, '123456', 'Cuison', 'Floribeth', 'Panay', 'Dean, BSCS'),
+(34, '3065', 'Casem', 'Elvin', 'Estoque', 'Instructor I'),
+(37, '1001', 'aaa', 'aaa', 'aa', 'asd'),
+(38, '31231', 'ad', 'aaa', 'ass', 'saas');
 
 -- --------------------------------------------------------
 
@@ -46,9 +62,26 @@ CREATE TABLE IF NOT EXISTS `items` (
   `itemNo` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` varchar(200) NOT NULL,
   `unit` varchar(20) NOT NULL,
-  `unitCost` double NOT NULL,
+  `unitCost` double(18,2) NOT NULL,
   PRIMARY KEY (`itemNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+--
+-- Dumping data for table `items`
+--
+
+INSERT INTO `items` (`itemNo`, `description`, `unit`, `unitCost`) VALUES
+(4, 'Epson SB18 LCD Projector', '10', 23.00),
+(5, '60D DSLR Camera', '2', 30.00),
+(6, 'Intel Core i7 CPU with 21" LED monitor', '10', 30.00),
+(7, '21" LED Phillips Monitor', '20', 19999999.99),
+(8, '1 HP LG Aircon', '10', 10000.00),
+(13, 'ACER Laptop', '5', 25000.00),
+(14, 'asdasd', '111', 12.00),
+(15, '11111', '1', 123.00),
+(16, '231', '1', 3321.00),
+(17, 'ba', '2', 123.50),
+(18, 'qqq', '1', 123.12);
 
 -- --------------------------------------------------------
 
