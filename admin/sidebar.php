@@ -23,14 +23,14 @@
                             <a href="index.php"><i class="icon-chevron-right"></i> Dashboard</a>
                         </li>
                         <li <?php echo $pr_class; ?>>
-                            <a href="prequest.php"><i class="icon-chevron-right"></i> Purchase Requests</a>
+                            <a href="prequest.php"><i class="icon-th-list"></i> Purchase Requests</a>
                         </li>
                         <li <?php echo $items_class; ?>>
-                            <a href="items.php"><i class="icon-chevron-right"></i> Items</a>
+                            <a href="items.php"><i class="icon-shopping-cart"></i> Items</a>
                         </li>
                         <li <?php echo $emp_class; ?>>
-                            <a href="employees.php"><i class="icon-chevron-right"></i> Employees</a>
+                            <a href="employees.php"><i class="icon-user"></i> Employees</a>
                         </li>
-                        
+						
                     </ul>
                 </div>

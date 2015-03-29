@@ -6,7 +6,10 @@ include_once("header.php");
 
 include_once("sidebar.php");
 
+
+
 ?>
+
 
 <div class="span9" id="content">
                     <div class="row-fluid">
@@ -24,14 +27,18 @@ include_once("sidebar.php");
                             	</div>
                         	</div>
                     	</div>
-                    
-                    
-                     <!-- validation -->
                     <div class="row-fluid">
+                    <p>
+											<button id="addemployee" class="btn btn-large btn-success"><i class="icon-plus-sign"></i> Add Employee</button>
+											
+										</p>
+					</div>
+                     <!-- validation -->
+                    <div class="row-fluid" id="employeeform" style="display:none;">
                          <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Employees</div>
+                                <div class="muted pull-left">Add Employees</div>
                             </div>
                             <div class="block-content collapse in">
                                 <div class="span12">
@@ -44,7 +51,7 @@ include_once("sidebar.php");
 							</div>
 							<div class="alert alert-success hide">
 								<button class="close" data-dismiss="alert"></button>
-								Your form validation is successful!
+								Employee added!
 							</div>
   							<div class="control-group">
   								<label class="control-label">Employee No.<span class="required">*</span></label>
@@ -76,11 +83,11 @@ include_once("sidebar.php");
   									<input type="text" name="designation" data-required="1" class="span6 m-wrap"/>
   								</div>
   							</div>
-							<div id="formstatus">1</div>
+							<!-- <div id="formstatus">1</div> -->
   							
   							<div class="form-actions">
   								<button type="submit" class="btn btn-primary" onClick="saveEmployee();">Save</button>
-  								<button type="button" class="btn">Cancel</button>
+  								<button type="button" class="btn" id="cancelemployee">Cancel</button>
   							</div>
 						</fieldset>
 					</form>
@@ -91,6 +98,66 @@ include_once("sidebar.php");
                      	<!-- /block -->
 		    </div>
                      <!-- /validation -->
+					 
+					 
+					 <div class="row-fluid">
+                        <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Bootstrap dataTables</div>
+                            </div>
+                            <div class="block-content collapse in">
+                                <div class="span12">
+                                    
+  									<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="employee">
+										<thead>
+											<tr>
+												<th>Employee No.</th>
+												<th>Name</th>
+												<th>Designation</th>
+												<th>Action</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+										
+											<?php
+											include_once("assets/functions.php");
+											$query = "SELECT * FROM employee";
+											//echo $query;
+											$employeelist = selectListSQL("SELECT * FROM employee");
+											//print_r($employeelist);
+											foreach ($employeelist as $rows => $link) {
+												
+												$employeeno = $link['empNo'];
+												$employeename = $link['lname'];
+												$employeedesignation = $link['designation'];
+												echo "<tr class='odd gradeX'>";
+												echo "<td>$employeeno</td>";
+												echo "<td>$employeeno</td>";
+												echo "<td>$employeedesignation</td>";
+												echo "<td class='center'> 
+													<button class='btn'><i class='icon-eye-open'></i> View</button>
+													<button class='btn btn-primary'><i class='icon-pencil icon-white'></i> Edit</button>
+													<button class='btn btn-danger'><i class='icon-remove icon-white'></i> Delete</button>
+												</td>";
+											}
+											
+											
+
+										?>
+											
+											
+										</tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /block -->
+                    </div>
+					 
+					 
+					 
                     
                 </div>
 
