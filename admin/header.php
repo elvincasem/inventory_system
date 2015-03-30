@@ -6,7 +6,7 @@
 		header("Location:../");
 		
 	}
-
+include("assets/functions.php");
 ?>
 <!DOCTYPE html>
 <html class="no-js">

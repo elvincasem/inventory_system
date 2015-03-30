@@ -10,6 +10,7 @@
 		</script>
         <script src="vendors/jquery-1.9.1.min.js"></script>
         <script src="bootstrap/js/bootstrap.min.js"></script>
+		
         <script src="vendors/easypiechart/jquery.easy-pie-chart.js"></script>
 		        <script src="vendors/datatables/js/jquery.dataTables.min.js"></script>
 				        <script src="assets/DT_bootstrap.js"></script>
@@ -18,8 +19,9 @@
 		<script src="assets/form-validation.js"></script>
 		<script src="vendors/jGrowl/jquery.jgrowl.js"></script>
 		<script src="vendors/wizard/jquery.bootstrap.wizard.min.js"></script>
-		
+		<script src="vendors/bootstrap-datepicker.js"></script>
 		<script src="vendors/wizard/jquery.bootstrap.wizard.min.js"></script>
+		<link href="vendors/datepicker.css" rel="stylesheet" media="screen">
 		<script>
 		//jQuery(document).ready(function() {   
 			   

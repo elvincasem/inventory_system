@@ -2,9 +2,9 @@
 session_start();
 //print_r($_SESSION);
 
-include_once("header.php");
+include("header.php");
 
-include_once("sidebar.php");
+include("sidebar.php");
 
 ?>
 
@@ -25,117 +25,216 @@ include_once("sidebar.php");
                         	</div>
                     	</div>
                     
+					<!-- begin form -->
 					
-					<!-- block -->
+					<div class="row-fluid">
+                    <p>
+											<button id="additem" class="btn btn-large btn-success"><i class="icon-plus-sign"></i> Add Purchase Request</button>
+											<button id="refreshitem" class="btn btn-large btn-success"><i class="icon-refresh"></i>Refresh</button>
+											
+										</p>
+					</div>
+					<div class="row-fluid">
+						<div class="alert alert-success hide" id="deletesuccess">
+									<button class="close" data-dismiss="alert"></button>
+									Purchase Request deleted!
+						</div>
+					</div>
+                     <!-- validation -->
+                    <div class="row-fluid" id="itemform" style="display:none;">
+                         <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Form Wizard</div>
+                                <div class="muted pull-left">Add New PR</div>
+                            </div>
+							
+                 <div class="block-content collapse in" >
+                                <div class="span12">
+					<!-- BEGIN FORM-->
+					<form action="#" id="form_pr" class="form-horizontal">
+						<fieldset>
+							<div class="alert alert-error hide">
+								<button class="close" data-dismiss="alert"></button>
+								You have some form errors. Please check below.
+							</div>
+							<div class="alert alert-success hide">
+								<button class="close" data-dismiss="alert"></button>
+								Item added!
+							</div>
+  							
+							<div class="control-group">
+  								<label class="control-label">PR Number<span class="required">*</span></label>
+  								<div class="controls">
+  									<input type="text" id="prnumber" name="prnumber" data-required="1" class="span6 m-wrap"/>
+  								</div>
+  							</div>
+							<div class="control-group">
+  								<label class="control-label">Department<span class="required">*</span></label>
+  								<div class="controls">
+  									<input type="text" id="department" name="department" data-required="1" class="span6 m-wrap" value="DMMMSU-SLUC"/>
+  								</div>
+  							</div>
+							 
+							<div class="control-group">
+                                          <label class="control-label" for="select01">Offices</label>
+                                          <div class="controls">
+                                            <select id="offices" name="offices" class="chzn-select">
+                                              <option value="">Select...</option>
+                                              <?php
+														
+											$officelist = selectListSQL("SELECT * FROM offices ORDER BY transid ASC");
+											//$employeelist = selectListSQL2("SELECT * FROM employee");
+											//print_r($employeelist);
+											foreach ($officelist as $rows => $link) {
+												$officeid = $link['transid'];
+												$officename = $link['office'];
+												
+												echo "<option value='$officeid'>$officename</option>";
+											
+											}
+										?>
+                                            </select>
+                                          </div>
+                                        </div>
+							
+						
+							
+							<div class="control-group">
+                                          <label class="control-label" for="date01">Request Date</label>
+                                          <div class="controls">
+                                            <input type="text" class="input-xlarge datepicker" name="requestdate" id="requestdate" value="<?php echo date('m/d/Y') ?>">
+                                            
+                                          </div>
+                                        </div>
+										
+							<div class="control-group">
+                                          <label class="control-label" for="textarea2">Purpose</label>
+                                          <div class="controls">
+                                            <textarea id="purpose" name="purpose" class="input-xlarge textarea" placeholder="Purpose of your request..." style="width: 400px; height: 150px"></textarea>
+                                          </div>
+                                        </div>
+  							
+							<div class="control-group">
+                                          <label class="control-label" for="select01">Requested By</label>
+                                          <div class="controls">
+                                            <select id="employeelist" name="employeelist" class="chzn-select">
+                                              <option value="">Select...</option>
+                                              <?php
+														
+											$employeelist = selectListSQL("SELECT * FROM employee");
+											//$employeelist = selectListSQL2("SELECT * FROM employee");
+											//print_r($employeelist);
+											foreach ($employeelist as $rows => $link) {
+												$eid = $link['eid'];
+												$employeeno = $link['empNo'];
+												$employeename = $link['fname'] . " ". $link['mname'] ." ". $link['lname'];
+												$employeedesignation = $link['designation'];
+												
+												echo "<option value='$eid'>$employeename</option>";
+											
+											}
+										?>
+                                            </select>
+                                          </div>
+                                        </div>
+							
+							<div class="control-group">
+  								<label class="control-label">Designation<span class="required">*</span></label>
+  								<div class="controls">
+  									<input type="text" id="designation" name="designation" data-required="1" class="span6 m-wrap"/>
+  								</div>
+  							</div>
+							
+  							<div class="form-actions">
+  								<button type="submit" class="btn btn-primary" onClick="savePR();">Save</button>
+								<button type="submit" class="btn btn-primary" onClick="saveandaddItem();">Save and Add Item</button>
+  								<button type="button" class="btn" id="cancelItem">Cancel</button>
+  							</div>
+						</fieldset>
+					</form>
+					<!-- END FORM-->
+				</div>
+			    </div>
+			</div>
+                     	<!-- /block -->
+					
+					
+					
+					
+                </div> 
+
+<!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class=" pull-left"><h2>Purchase Request</h2></div>
                             </div>
                             <div class="block-content collapse in">
                                 <div class="span12">
-                                    <div id="rootwizard">
-                                        <div class="navbar">
-                                          <div class="navbar-inner">
-                                            <div class="container">
-                                        <ul>
-                                            <li><a href="#tab1" data-toggle="tab">Step 1</a></li>
-                                            <li><a href="#tab2" data-toggle="tab">Step 2</a></li>
-                                            <li><a href="#tab3" data-toggle="tab">Step 3</a></li>
-                                        </ul>
-                                         </div>
-                                          </div>
-                                        </div>
-                                        <div id="bar" class="progress progress-striped active">
-                                          <div class="bar"></div>
-                                        </div>
-                                        <div class="tab-content">
-                                            <div class="tab-pane" id="tab1">
-                                               <form class="form-horizontal">
-                                                  <fieldset>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Name</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Email</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Phone</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                  </fieldset>
-                                                </form>
-                                            </div>
-                                            <div class="tab-pane" id="tab2">
-                                                <form class="form-horizontal">
-                                                  <fieldset>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Address</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">City</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">State</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                  </fieldset>
-                                                </form>
-                                            </div>
-                                            <div class="tab-pane" id="tab3">
-                                                <form class="form-horizontal">
-                                                  <fieldset>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Company Name</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Contact Name</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                    <div class="control-group">
-                                                      <label class="control-label" for="focusedInput">Contact Phone</label>
-                                                      <div class="controls">
-                                                        <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                      </div>
-                                                    </div>
-                                                  </fieldset>
-                                                </form>
-                                            </div>
-                                            <ul class="pager wizard">
-                                                <li class="previous first" style="display:none;"><a href="javascript:void(0);">First</a></li>
-                                                <li class="previous"><a href="javascript:void(0);">Previous</a></li>
-                                                <li class="next last" style="display:none;"><a href="javascript:void(0);">Last</a></li>
-                                                <li class="next"><a href="javascript:void(0);">Next</a></li>
-                                                <li class="next finish" style="display:none;"><a href="javascript:;">Finish</a></li>
-                                            </ul>
-                                        </div>  
-                                    </div>
+                                    
+  									<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="employee">
+										<thead>
+											<tr>
+												<th>PR No.</th>
+												<th>Office</th>
+												<th>Request Date</th>
+												<th>Requested By</th>
+												
+												<th>Purpose</th>
+												<th>Status</th>
+												<th>Action</th>
+												
+												
+											</tr>
+										</thead>
+										<tbody>
+										
+											<?php
+											include_once("assets/functions.php");
+											//$query = "SELECT * FROM pr_list";
+											//echo $query;
+											$prlist = selectListSQL("SELECT * FROM pr_list ORDER BY transID DESC");
+											//print_r($employeelist);
+											foreach ($prlist as $rows => $link) {
+												$transID = $link['transID'];
+												$prNo = $link['prNo'];
+												$department = $link['department'];
+												$office = $link['section'];
+												$prDate = $link['prDate'];
+												$purpose = $link['purpose'];
+												$requestedBy = $link['requestedBy'];
+												$designation = $link['designation'];
+												$status = $link['status'];
+												
+												echo "<tr class='odd gradeX'>";
+												echo "<td>$prNo</td>";
+												echo "<td>$office</td>";
+												echo "<td>$prDate</td>";
+												echo "<td>$requestedBy</td>";
+												//echo "<td>$designation</td>";
+												echo "<td>$purpose</td>";
+												echo "<td>$status</td>";
+												echo "<td class='center'> 
+													<button class='btn btn-mini' onClick='editemployee($eid)'><i class='icon-eye-open'></i> </button>
+													<button class='btn btn-primary btn-mini' onClick='editemployee($eid)'><i class='icon-pencil icon-white'></i> </button>
+													<button class='btn btn-danger notification btn-mini' id='notification' onClick='deleteemployee($eid)'><i class='icon-remove icon-white'></i> </button>
+												</td>";
+												
+											}
+											
+											
+
+										?>
+											
+											
+										</tbody>
+									</table>
+								
                                 </div>
                             </div>
                         </div>
                         <!-- /block -->
-					
-					
-                </div>
+
+
+				</div>
 
 <?php include("footer.php");?>

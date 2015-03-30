@@ -17,6 +17,27 @@ $(function() {
 	   	$('.hide-sidebar').show();
 	  	$('#sidebar').show('fast');
 	});
+	$(".datepicker").datepicker();
+	
+	
+	 $("#employeelist").change(function () {
+        var empid = this.value;
+		//alert(empid);
+        //var firstDropVal = $('#pick').val();
+		$.ajax({
+					//var eid = document.getElementById("employeelist").value;
+					//var empno =$("#employeelist").value;
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "showdesignation", eid: empid},
+                    success: function(response) {
+						//console.log();
+						document.getElementById("designation").value = response;
+						
+                    }
+                });
+		
+    });
 });
 
 //open close item form
@@ -301,7 +322,7 @@ function validateItem(){
 						
                         //$('table#resultTable tbody').html(response);
 						//alert(response);
-						//$('#employee').load(document.URL +  ' #employee');
+						//$('#itemtable').load(document.URL +  ' #itemtable');
 						//$('#deletesuccess').show("fast");
 						//setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
                     }
@@ -365,5 +386,127 @@ function deleteitem(id){
 	
 }
 
+function validatePR(){
+	
+	
+	//var handleValidationEmployee = function() {
+        // for more info visit the official plugin documentation: 
+            // http://docs.jquery.com/Plugins/Validation
 
+            var form1 = $('#form_pr');
+            var error1 = $('.alert-error', form1);
+            var success1 = $('.alert-success', form1);
+
+            form1.validate({
+                errorElement: 'span', //default input error message container
+                errorClass: 'help-inline', // default input error message class
+                focusInvalid: false, // do not focus the last invalid input
+                ignore: "",
+                rules: {
+                    prnumber: {
+                        minlength: 2,
+                        required: true
+                    },
+					department: {
+                        minlength: 1,
+                        required: true
+                    },
+                    offices: {
+                        minlength: 1,
+                        required: true
+                    },
+					requestdate: {
+                        minlength: 2,
+                        required: true
+                    },
+					purpose: {
+                        minlength: 2,
+                        required: true
+                    },
+					employeelist: {
+                        minlength: 1,
+                        required: true
+                    },
+					designation: {
+                        minlength: 2,
+                        required: true
+                    }
+                },
+
+                invalidHandler: function (event, validator) { //display error alert on form submit              
+                    success1.hide();
+                    error1.show();
+                    FormValidation.scrollTo(error1, -200);
+                },
+
+                highlight: function (element) { // hightlight error inputs
+                    $(element)
+                        .closest('.help-inline').removeClass('ok'); // display OK icon
+                    $(element)
+                        .closest('.control-group').removeClass('success').addClass('error'); // set error class to the control group
+                },
+
+                unhighlight: function (element) { // revert the change done by hightlight
+                    $(element)
+                        .closest('.control-group').removeClass('error'); // set error class to the control group
+                },
+
+                success: function (label) {
+                    label
+                        .addClass('valid').addClass('help-inline ok') // mark the current input as valid and display OK icon
+                    .closest('.control-group').removeClass('error').addClass('success'); // set success class to the control group
+					//document.getElementById("formstatus").innerHTML = "ok";
+					//status = document.getElementById("formstatus").innerHTML;
+                },
+
+                submitHandler: function (form) {
+					
+                    success1.show();
+                    //error1.hide();
+					
+					//var description = document.getElementById("description").value;
+					//var unit = document.getElementById("unit").value;
+					//var unitcost = document.getElementById("unitcost").value;
+					
+					$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "savepr"},
+                    success: function(response) {
+						//console.log();
+						//document.getElementById("description").value = "";
+						//document.getElementById("unit").value = "";
+						//document.getElementById("unitcost").value = "";
+
+						//$('#itemtable').load(document.URL +  ' #itemtable');
+						 //location.reload();
+						
+						alert("ok");
+						}
+					});
+					
+
+                }
+            });
+
+			// wrapper function to scroll to an element
+			return {
+				scrollTo: function (el, offeset) {
+            pos = el ? el.offset().top : 0;
+            jQuery('html,body').animate({
+                    scrollTop: pos + (offeset ? offeset : 0)
+                }, 'slow');
+				}
+				
+			}
+	
+	
+}
+
+function savePR(){
+	
+	var status = validatePR();
+	//setTimeout(function(){$('#itemform').hide("fast");},800);
+	
+}
 

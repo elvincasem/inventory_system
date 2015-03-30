@@ -1,10 +1,10 @@
 <?php 
 	session_start();
-	
+	require 'db_connection.php';
 	//database connection
 //save employee
 	if($_GET['action'] == "saveemployee"){
-		require 'db_connection.php';
+		
 		$conn = dbConnect();
 		$empid = $_GET['empid'];
 		$lname = $_GET['lname'];
@@ -15,14 +15,14 @@
 		//$sqldelete = "DELETE FROM employee where eid='$eid'";
 		$save = $conn->prepare($sqlinsert);
 		$save->execute();
-		//$conn = null;
+		$conn = null;
 		//echo $empid;
 		//session_destroy();
 		//echo "saved";
 	}
 //delete employee
 	if($_GET['action'] == "deleteemployee"){
-		require 'db_connection.php';
+		//require 'db_connection.php';
 		$conn = dbConnect();
 		$eid = $_GET['eid'];
 		$sqldelete = "DELETE FROM employee where eid='$eid'";
@@ -46,7 +46,7 @@
 
 //save item
 	if($_GET['action'] == "saveitem"){
-		require 'db_connection.php';
+		//require 'db_connection.php';
 		$conn = dbConnect();
 		$description = $_GET['description'];
 		$unit = $_GET['unit'];
@@ -56,14 +56,14 @@
 		//$sqldelete = "DELETE FROM employee where eid='$eid'";
 		$save = $conn->prepare($sqlinsert);
 		$save->execute();
-		//$conn = null;
+		$conn = null;
 		//echo $empid;
 		//session_destroy();
 		//echo "saved";
 	}
 //delete item
 	if($_GET['action'] == "deleteitem"){
-		require 'db_connection.php';
+		//require 'db_connection.php';
 		$conn = dbConnect();
 		$itemno = $_GET['itemno'];
 		$sqldelete = "DELETE FROM items where itemNo='$itemno'";
@@ -99,7 +99,43 @@
 		//session_destroy();
 		echo "loggedout";
 	}
-//delete employee
+//show designation
+	if($_GET['action'] == "showdesignation"){
+		$conn = dbConnect();
+		$employeeid = $_GET['eid'];
+		//echo $employeeid;
+		//$sql = "SELECT designation FROM employee WHERE eid='$employeeid' limit 1";
+		$sth = $conn->prepare("SELECT designation FROM employee WHERE eid='$employeeid'");
+		$sth->execute();
+		//$result = mysql_query($sql);
+		//$value = mysql_fetch_object($result);
+		$value = $sth->fetchColumn();
+		//print_r($sth);
+		//session_destroy();
+		echo "$value";
+	}
+//save pr
+	if($_GET['action'] == "savepr"){
+		//require 'db_connection.php';
+		$conn = dbConnect();
+		$prnumber = $_GET['prnumber'];
+		$department = $_GET['department'];
+		$offices = $_GET['offices'];
+		$requestdate = $_GET['requestdate'];
+		$purpose = $_GET['purpose'];
+		$requestedby = $_GET['requestedby'];
+		$designation = $_GET['designation'];
+		$status = "PENDING";
+		$sqlinsert = "INSERT INTO pr_list(prNo,department,section,prDate,purpose,requestedBy,designation,status) VALUES('$prnumber','$department','$offices','$requestdate','$purpose','$requestedby','$designation','$status')";
+		//$sqldelete = "DELETE FROM employee where eid='$eid'";
+		$save = $conn->prepare($sqlinsert);
+		$save->execute();
+		$conn = null;
+		//echo $empid;
+		//session_destroy();
+		//echo "saved";
+	}
+
 	
 
 	
@@ -111,7 +147,7 @@ function select_single(){
 }
 
 function selectListSQL($q){
-	require 'db_connection.php';
+	//require 'db_connection.php';
 	$conn = dbConnect();
 	//alert($q);
 	//$conn->query($sql)
@@ -133,9 +169,11 @@ function selectListSQL($q){
 	//$result = $conn->query($q);
 	//print_r($rows);
 	return $rows;
+	//echo $rows;
 	$conn = null;
 	
 }
+
 
 /* fetch whole row
 
