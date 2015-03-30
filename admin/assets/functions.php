@@ -74,7 +74,21 @@
 		//session_destroy();
 		//echo "loggedout";
 	}
-	
+//delete pr
+if($_GET['action'] == "deletepr"){
+		//require 'db_connection.php';
+		$conn = dbConnect();
+		$prid = $_GET['transID'];
+		$qu = "DELETE FROM pr_list where transID='$prid'";
+		//echo $qu;
+		$sqldelete = "DELETE FROM pr_list where transID='$prid'";
+		$delete = $conn->prepare($sqldelete);
+		$delete->execute();
+		$conn = null;
+		//echo $eid;
+		//session_destroy();
+		//echo "loggedout";
+	}
 	
 	
 	
@@ -115,25 +129,37 @@
 		echo "$value";
 	}
 //save pr
-	if($_GET['action'] == "savepr"){
+	if($_GET['action'] == "savepurchaserequest"){
 		//require 'db_connection.php';
 		$conn = dbConnect();
-		$prnumber = $_GET['prnumber'];
+		$prnumber = $_GET['prno'];
 		$department = $_GET['department'];
-		$offices = $_GET['offices'];
+		$officeid = $_GET['offices'];
+		$getoffice = $conn->prepare("SELECT office FROM offices where transid=$officeid");
+		$getoffice->execute();
+		$officename = $getoffice->fetchColumn();
 		$requestdate = $_GET['requestdate'];
 		$purpose = $_GET['purpose'];
 		$requestedby = $_GET['requestedby'];
+		$name = $conn->prepare("SELECT fname, mname, lname FROM employee where eid='$requestedby'");
+		$name->execute();
+		$result = $name->fetch(PDO::FETCH_ASSOC);
+		$fname = $result['fname'];
+		$mname = $result['mname'];
+		$lname = $result['lname'];
+		$result = $fname . ' ' .$mname. ' ' . $lname;
+		$requesterbyname = $result;
 		$designation = $_GET['designation'];
 		$status = "PENDING";
-		$sqlinsert = "INSERT INTO pr_list(prNo,department,section,prDate,purpose,requestedBy,designation,status) VALUES('$prnumber','$department','$offices','$requestdate','$purpose','$requestedby','$designation','$status')";
+		$sqlinsert = "INSERT INTO pr_list(prNo,department,section,prDate,purpose,requestedBy,designation,status) VALUES('$prnumber','$department','$officename','$requestdate','$purpose','$requesterbyname','$designation','$status')";
+		
 		//$sqldelete = "DELETE FROM employee where eid='$eid'";
 		$save = $conn->prepare($sqlinsert);
 		$save->execute();
 		$conn = null;
 		//echo $empid;
 		//session_destroy();
-		//echo "saved";
+		echo $sqlinsert;
 	}
 
 	

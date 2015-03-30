@@ -17,7 +17,7 @@ $(function() {
 	   	$('.hide-sidebar').show();
 	  	$('#sidebar').show('fast');
 	});
-	$(".datepicker").datepicker();
+	//$(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
 	
 	
 	 $("#employeelist").change(function () {
@@ -72,6 +72,25 @@ $('#cancelemployee').click(function() {
         $('#employeeform').hide("slow");
     });
 $('#refreshemployee').click(function() {
+
+        //$('.container').hide();
+        location.reload();
+    });
+	
+
+	//open close pr form
+$('#addpr').click(function() {
+
+        //$('.container').hide();
+        $('#prform').show("slow");
+    });
+
+$('#cancelpr').click(function() {
+
+        //$('.container').hide();
+        $('#prform').hide("slow");
+    });
+$('#refreshpr').click(function() {
 
         //$('.container').hide();
         location.reload();
@@ -464,14 +483,20 @@ function validatePR(){
                     success1.show();
                     //error1.hide();
 					
-					//var description = document.getElementById("description").value;
+					var prnumber = document.getElementById("prnumber").value;
+					var department = document.getElementById("department").value;
+					var offices = document.getElementById("offices").value;
+					var requestdate = document.getElementById("requestdate").value;
+					var purpose = document.getElementById("purpose").value;
+					var employeelist = document.getElementById("employeelist").value;
+					var designation = document.getElementById("designation").value;
 					//var unit = document.getElementById("unit").value;
 					//var unitcost = document.getElementById("unitcost").value;
 					
 					$.ajax({
                     url: 'assets/functions.php',
                     type: 'get',
-                    data: {action: "savepr"},
+                    data: {action: "savepurchaserequest", prno: prnumber, department: department, offices: offices, requestdate: requestdate, purpose: purpose, requestedby: employeelist, designation: designation},
                     success: function(response) {
 						//console.log();
 						//document.getElementById("description").value = "";
@@ -481,7 +506,7 @@ function validatePR(){
 						//$('#itemtable').load(document.URL +  ' #itemtable');
 						 //location.reload();
 						
-						alert("ok");
+						//alert(response);
 						}
 					});
 					
@@ -506,7 +531,39 @@ function validatePR(){
 function savePR(){
 	
 	var status = validatePR();
-	//setTimeout(function(){$('#itemform').hide("fast");},800);
+	setTimeout(function(){$('#itemform').hide("fast");},800);
+	
+}
+function saveandaddpritem(){
+	
+	var status = validatePR();
+	setTimeout(function(){$('#itemform').hide("fast");});
+	
 	
 }
 
+function deletepr(id){
+	
+	var r = confirm("Are your sure you want to delete this Item?");
+    if (r == true) {
+        //alert ("You pressed OK!");
+		$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "deletepr", transID: id},
+                    success: function(response) {
+                        //$('table#resultTable tbody').html(response);
+						//alert(response);
+						$('#employee').load(document.URL +  ' #employee');
+						//alert(response);
+						$('#deletesuccess').show("fast");
+						setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+                    }
+                });
+		
+    } if(r == false) {
+        //txt = "You pressed Cancel!";
+		
+    }
+	
+}

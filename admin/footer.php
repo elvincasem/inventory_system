@@ -53,7 +53,9 @@
 	}
 	
 	$(function() {
-            $(".datepicker").datepicker();
+            //$(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
+			//$("#requestdate").datepicker({ dateFormat: "yy-mm-dd" }).val()
+			$('.datepicker').datepicker({format: 'yyyy-mm-dd'});
             $(".uniform_on").uniform();
             $(".chzn-select").chosen();
             $('.textarea').wysihtml5();

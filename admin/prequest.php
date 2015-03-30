@@ -29,8 +29,8 @@ include("sidebar.php");
 					
 					<div class="row-fluid">
                     <p>
-											<button id="additem" class="btn btn-large btn-success"><i class="icon-plus-sign"></i> Add Purchase Request</button>
-											<button id="refreshitem" class="btn btn-large btn-success"><i class="icon-refresh"></i>Refresh</button>
+											<button id="addpr" class="btn btn-large btn-success"><i class="icon-plus-sign"></i> Add Purchase Request</button>
+											<button id="refreshpr" class="btn btn-large btn-success"><i class="icon-refresh"></i>Refresh</button>
 											
 										</p>
 					</div>
@@ -41,7 +41,7 @@ include("sidebar.php");
 						</div>
 					</div>
                      <!-- validation -->
-                    <div class="row-fluid" id="itemform" style="display:none;">
+                    <div class="row-fluid" id="prform" style="display:none;">
                          <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
@@ -102,7 +102,7 @@ include("sidebar.php");
 							<div class="control-group">
                                           <label class="control-label" for="date01">Request Date</label>
                                           <div class="controls">
-                                            <input type="text" class="input-xlarge datepicker" name="requestdate" id="requestdate" value="<?php echo date('m/d/Y') ?>">
+                                            <input type="text" class="input-xlarge datepicker" name="requestdate" id="requestdate" value="<?php echo date('Y-m-d') ?>" data-date-format="yyyy-mm-dd">
                                             
                                           </div>
                                         </div>
@@ -146,9 +146,9 @@ include("sidebar.php");
   							</div>
 							
   							<div class="form-actions">
-  								<button type="submit" class="btn btn-primary" onClick="savePR();">Save</button>
-								<button type="submit" class="btn btn-primary" onClick="saveandaddItem();">Save and Add Item</button>
-  								<button type="button" class="btn" id="cancelItem">Cancel</button>
+  							<!--	<button type="submit" class="btn btn-primary" onClick="savePR();">Save</button>-->
+								<button type="submit" class="btn btn-primary" onClick="saveandaddpritem();">Save and Add Item</button>
+  								<button type="button" class="btn" id="cancelpr">Cancel</button>
   							</div>
 						</fieldset>
 					</form>
@@ -157,7 +157,63 @@ include("sidebar.php");
 			    </div>
 			</div>
                      	<!-- /block -->
-					
+						
+						
+						
+				<!-- item form	-->
+				<div class="row-fluid" id="prform" >
+                         <!-- block -->
+                        <div class="block">
+                            <div class="navbar navbar-inner block-header">
+                                <div class="muted pull-left">Add Item</div>
+                            </div>
+				<div class="block-content collapse in">
+                    <div class="span12">
+					<!-- BEGIN FORM-->
+					<form action="#" id="form_additem" class="form-horizontal">
+						<fieldset>
+							<div class="alert alert-error hide">
+								<button class="close" data-dismiss="alert"></button>
+								You have some form errors. Please check below.
+							</div>
+							<div class="alert alert-success hide">
+								<button class="close" data-dismiss="alert"></button>
+								Item added!
+							</div>
+  							
+							<div class="control-group">
+  								<label class="control-label">Description<span class="required">*</span></label>
+  								<div class="controls">
+  									<input type="text" id="description" name="description" data-required="1" class="span6 m-wrap"/>
+  								</div>
+  							</div>
+							<div class="control-group">
+  								<label class="control-label">Unit<span class="required">*</span></label>
+  								<div class="controls">
+  									<input type="text" id="unit" name="unit" data-required="1" class="span6 m-wrap"/>
+  								</div>
+  							</div>
+							<div class="control-group">
+  								<label class="control-label">Unit Cost<span class="required">*</span></label>
+  								<div class="controls">
+  									<input type="text" id="unitcost" name="unitcost" data-required="1" class="span6 m-wrap"/>
+  								</div>
+  							</div>
+							
+							<!-- <div id="formstatus">1</div> -->
+  							
+  							<div class="form-actions">
+  								<button type="submit" class="btn btn-primary" onClick="saveItem();">Add Item</button>
+  							</div>
+						</fieldset>
+					</form>
+					<!-- END FORM-->
+					</div>
+				</div>
+				
+						</div>
+						<!--end row-->
+				</div>
 					
 					
 					
@@ -214,9 +270,9 @@ include("sidebar.php");
 												echo "<td>$purpose</td>";
 												echo "<td>$status</td>";
 												echo "<td class='center'> 
-													<button class='btn btn-mini' onClick='editemployee($eid)'><i class='icon-eye-open'></i> </button>
-													<button class='btn btn-primary btn-mini' onClick='editemployee($eid)'><i class='icon-pencil icon-white'></i> </button>
-													<button class='btn btn-danger notification btn-mini' id='notification' onClick='deleteemployee($eid)'><i class='icon-remove icon-white'></i> </button>
+													<button class='btn btn-mini' onClick='viewpr($transID)'><i class='icon-eye-open'></i> </button>
+													<button class='btn btn-primary btn-mini' onClick='editpr($transID)'><i class='icon-pencil icon-white'></i> </button>
+													<button class='btn btn-danger notification btn-mini' id='notification' onClick='deletepr($transID)'><i class='icon-remove icon-white'></i> </button>
 												</td>";
 												
 											}
