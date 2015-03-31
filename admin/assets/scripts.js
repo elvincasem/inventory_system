@@ -191,6 +191,7 @@ function validateEmployee(){
 						//$('#employee').load(document.URL +  ' #employee');
 						//$('#deletesuccess').show("fast");
 						//setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+						return "valid";
                     }
                 });
 					
@@ -223,7 +224,10 @@ function editemployee(id){
 function saveEmployee(){
 	
 	var status = validateEmployee();
-	setTimeout(function(){$('#employeeform').hide("fast");},800);
+	if(status == "valid"){
+			setTimeout(function(){$('#employeeform').hide("fast");},800);
+	}
+	
 	
 }
 function saveandcreateEmployee(){
@@ -344,6 +348,7 @@ function validateItem(){
 						//$('#itemtable').load(document.URL +  ' #itemtable');
 						//$('#deletesuccess').show("fast");
 						//setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+						return "valid";
                     }
                 });
 					
@@ -371,7 +376,10 @@ function validateItem(){
 function saveItem(){
 	
 	var status = validateItem();
-	setTimeout(function(){$('#itemform').hide("fast");},800);
+	if(status =="valid"){
+		setTimeout(function(){$('#itemform').hide("fast");},800);
+	}
+	
 	
 }
 function saveandcreateItem(){
@@ -507,6 +515,7 @@ function validatePR(){
 						 //location.reload();
 						
 						//alert(response);
+						return "valid";
 						}
 					});
 					
@@ -531,7 +540,10 @@ function validatePR(){
 function savePR(){
 	
 	var status = validatePR();
-	setTimeout(function(){$('#itemform').hide("fast");},800);
+	if(status == "valid"){
+		setTimeout(function(){$('#itemform').hide("fast");},800);	
+	}
+	
 	
 }
 function saveandaddpritem(){
