@@ -162,7 +162,30 @@ if($_GET['action'] == "deletepr"){
 		echo $sqlinsert;
 	}
 
+	if($_GET['action'] == "getlastpr"){
+		
+		$conn = dbConnect();
+		$lastprid = $conn->prepare("SELECT prNo FROM pr_list ORDER BY transID DESC limit 1");
+		$lastprid->execute();
+		$result = $lastprid->fetch(PDO::FETCH_ASSOC);
+		$lastpriddb = $result['prNo'];
+		//echo "2";
+		//print_r($lastpriddb);
+		echo $lastpriddb;
+	}
 	
+	if($_GET['action'] == "getitemdesc"){
+		
+		$itemid = $_GET['itemid'];
+		$conn = dbConnect();
+		$selecteditem = $conn->prepare("SELECT description,unit,unitCost FROM items WHERE itemNo=$itemid");
+		$selecteditem->execute();
+		$resultitem = $selecteditem->fetch(PDO::FETCH_ASSOC);
+		//$lastpriddb = $resultitem['description'];
+		//echo "2";
+		print_r($resultitem);
+		//echo $lastpriddb;
+	}
 
 	
 function select_single(){

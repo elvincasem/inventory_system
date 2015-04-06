@@ -48,18 +48,18 @@ include("sidebar.php");
                                 <div class="muted pull-left">Add New PR</div>
                             </div>
 							
-                 <div class="block-content collapse in" >
+                 <div class="block-content collapse in" id="purchaserequest">
                                 <div class="span12">
 					<!-- BEGIN FORM-->
 					<form action="#" id="form_pr" class="form-horizontal">
 						<fieldset>
 							<div class="alert alert-error hide">
-								<button class="close" data-dismiss="alert"></button>
+								<button class="close" data-dismiss="alert" id="pradderror"></button>
 								You have some form errors. Please check below.
 							</div>
-							<div class="alert alert-success hide">
+							<div class="alert alert-success hide" id="praddsuccess">
 								<button class="close" data-dismiss="alert"></button>
-								Item added!
+								Purchase Request Added!
 							</div>
   							
 							<div class="control-group">
@@ -130,7 +130,7 @@ include("sidebar.php");
 												$employeename = $link['fname'] . " ". $link['mname'] ." ". $link['lname'];
 												$employeedesignation = $link['designation'];
 												
-												echo "<option value='$eid'>$employeename</option>";
+												echo "<option value='$eid' onChange='alert('test')'>$employeename</option>";
 											
 											}
 										?>
@@ -147,9 +147,11 @@ include("sidebar.php");
 							
   							<div class="form-actions">
   							<!--	<button type="submit" class="btn btn-primary" onClick="savePR();">Save</button>-->
-								<button type="submit" class="btn btn-primary" onClick="saveandaddpritem();">Save and Add Item</button>
-  								<button type="button" class="btn" id="cancelpr">Cancel</button>
+								<button type="submit" class="btn btn-primary" id="savepradditem" onClick="saveandaddpritem();">Save and Add Item</button>
+  								
   							</div>
+							
+							
 						</fieldset>
 					</form>
 					<!-- END FORM-->
@@ -161,17 +163,85 @@ include("sidebar.php");
 						
 						
 				<!-- item form	-->
-				<div class="row-fluid" id="prform" >
+				<div class="row-fluid hide" id="pritemform" >
                          <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Add Item</div>
+                                <div class="muted pull-left"><h2>Add Item</h2></div>
                             </div>
 				<div class="block-content collapse in">
                     <div class="span12">
+					<!-- Begin item List-->
+					
+					<div class="span12">
+                                    
+  									<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example2">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Unit</th>
+                                                <th>Unit Cost</th>
+												<th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+											include_once("assets/functions.php");			
+											$itemlist = selectListSQL("SELECT * FROM items ORDER BY itemNo DESC");
+											//print_r($employeelist);
+											foreach ($itemlist as $rows => $link) {
+												$itemNo = $link['itemNo'];
+												$description = $link['description'];
+												$unit = $link['unit'];
+												$unitcost = $link['unitCost'];
+												
+												echo "<tr class='odd gradeX'>";
+												echo "<td>$description</td>";
+												echo "<td>$unit</td>";
+												echo "<td>$unitcost</td>";
+												echo "<td class='center'> 
+													
+													<button class='btn btn-primary' onClick='showprAddItem($itemNo);'><i class='icon-pencil icon-white'></i> Add to Item List</button>
+												
+												</td>";
+												echo "</tr>";
+											}
+											
+											
+
+										?>
+                                        </tbody>
+                                    </table>
+								
+                                </div>
+										
+					
+					
+					
+					
+					
 					<!-- BEGIN FORM-->
-					<form action="#" id="form_additem" class="form-horizontal">
-						<fieldset>
+						
+  							
+							
+							
+							<!-- <div id="formstatus">1</div> -->
+  							
+  							<!-- <div class="form-actions">
+  								<button type="submit" class="btn btn-primary" onClick="saveItem();">Add Item</button>
+  							</div> -->
+							
+							<button type="button" class="btn" id="cancelpr">Close</button>
+							
+							<div id="myModal" class="modal hide">
+											<div class="modal-header">
+												<button data-dismiss="modal" class="close" type="button">&times;</button>
+												<h3 id="itemheader"></h3>
+											</div>
+											<div class="modal-body">
+												<p id="itembody">Modal Example Body</p>
+												<p><form action="#" id="form_additem" class="form-horizontal">
+						
 							<div class="alert alert-error hide">
 								<button class="close" data-dismiss="alert"></button>
 								You have some form errors. Please check below.
@@ -180,8 +250,7 @@ include("sidebar.php");
 								<button class="close" data-dismiss="alert"></button>
 								Item added!
 							</div>
-  							
-							<div class="control-group">
+												<div class="control-group">
   								<label class="control-label">Description<span class="required">*</span></label>
   								<div class="controls">
   									<input type="text" id="description" name="description" data-required="1" class="span6 m-wrap"/>
@@ -199,13 +268,12 @@ include("sidebar.php");
   									<input type="text" id="unitcost" name="unitcost" data-required="1" class="span6 m-wrap"/>
   								</div>
   							</div>
-							
-							<!-- <div id="formstatus">1</div> -->
-  							
-  							<div class="form-actions">
-  								<button type="submit" class="btn btn-primary" onClick="saveItem();">Add Item</button>
-  							</div>
-						</fieldset>
+												
+												</p>
+												<button data-dismiss="modal" >Close</button>
+											</div>
+										</div>
+						
 					</form>
 					<!-- END FORM-->
 					</div>

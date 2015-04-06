@@ -76,19 +76,78 @@ $('#refreshemployee').click(function() {
         //$('.container').hide();
         location.reload();
     });
+	//open close pr form
+function getLastprnumber(){
+	
+	$.ajax({
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "getlastpr"},
+                    success: function(response) {
+						
+                        var d = new Date();
+						var month = d.getMonth();
+						//increate month by 1 since it is 0 indexed
+						month = month + 1;
+						var day = d.getDate();
+						var year = d.getFullYear();
+						var yy = year.toString().substring(2);
+						
+						var lastdigit = response.substring(6);
+						var lastmonth = response.substring(3,5);
+						var lastyear = response.substring(1,2);
+						
+						
+							lastmonth = parseInt(lastmonth);
+							if(lastmonth < month){
+								
+								lastdigit = 1;
+							}else{
+								lastdigit = parseInt(lastdigit) +1;
+							}
+
+						//converts month to a string
+						month = month + "";
+						//if month is 1-9 pad right with a 0 for two digits
+						if (month.length == 1)
+						{
+							month = "0" + month;
+						}
+		
+						var autopr = yy + '-' + month + '-' + lastdigit;
+						
+						document.getElementById("prnumber").value = autopr;
+						
+                    }
+                });
+	
+}
+
+$('#addpr').click(function() {
+	
 	
 
-	//open close pr form
-$('#addpr').click(function() {
-
-        //$('.container').hide();
+		//document.getElementById("prnumber").removeClass('success');
+		//$('#purchaserequest').load(document.URL +  ' #purchaserequest');
+		$("div").removeClass('success');
+		$('button#savepradditem').prop('disabled',false);
+		getLastprnumber();
+		
+		//$('button#savepradditem').prop('disabled',false);
         $('#prform').show("slow");
+		
+		
+
     });
+	
+	
+
 
 $('#cancelpr').click(function() {
 
         //$('.container').hide();
         $('#prform').hide("slow");
+		location.reload();
     });
 $('#refreshpr').click(function() {
 
@@ -515,6 +574,10 @@ function validatePR(){
 						 //location.reload();
 						
 						//alert(response);
+						$('button#savepradditem').prop('disabled',true);
+						$('#pritemform').show();
+						setTimeout(function(){$('#praddsuccess').hide("slow");},1500);
+						setTimeout(function(){$('#pradderror').hide("slow");},1500);
 						return "valid";
 						}
 					});
@@ -549,7 +612,7 @@ function savePR(){
 function saveandaddpritem(){
 	
 	var status = validatePR();
-	setTimeout(function(){$('#itemform').hide("fast");});
+	//setTimeout(function(){$('#form_pr').hide("fast");});
 	
 	
 }
@@ -578,4 +641,30 @@ function deletepr(id){
 		
     }
 	
+}
+
+function showprAddItem(item){
+	
+	//alert(item);
+	
+	
+	
+	//$('#itemheader').html(myTitle);
+	//$('#itembody').html(myBodyHtml);
+	$('#myModal').modal('show');
+	$.ajax({
+					
+                    url: 'assets/functions.php',
+                    type: 'get',
+                    data: {action: "getitemdesc", itemid: item},
+                    success: function(response) {
+						//console.log();
+						//document.getElementById("designation").value = response;
+						//var itemdescription = $.parseJSON(response);
+						//var description = item.description;
+						alert(response["description"]);
+						//document.getElementById("itemheader").value = response['description'];
+						
+                    }
+                });
 }
