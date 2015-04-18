@@ -629,10 +629,15 @@ function deletepr(id){
                     success: function(response) {
                         //$('table#resultTable tbody').html(response);
 						//alert(response);
-						$('#employee').load(document.URL +  ' #employee');
+						//$('#prtable').load(document.URL +  ' #prtable');
+						
+						 
 						//alert(response);
 						$('#deletesuccess').show("fast");
-						setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+						
+						//setTimeout(function(){$('#deletesuccess').hide("slow");},1500);
+						setTimeout(function(){location.reload();},1000);
+						
                     }
                 });
 		
